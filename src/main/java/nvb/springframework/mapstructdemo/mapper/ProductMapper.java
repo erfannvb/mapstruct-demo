@@ -7,16 +7,18 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
 import java.util.UUID;
 
-@Mapper(imports = UUID.class)
+@Mapper(componentModel = "spring", imports = UUID.class)
 public interface ProductMapper {
 
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
     @Mapping(source = "product.desc", target = "description", defaultValue = "description")
-    @Mapping(target = "itemId", expression = "java(UUID.randomUUID().toString())")
     ProductDto modelToDto(Product product);
+
+    List<ProductDto> modelsToDtos(List<Product> products);
 
     @InheritInverseConfiguration
     Product dtoToModel(ProductDto productDto);
